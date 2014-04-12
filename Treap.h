@@ -33,7 +33,7 @@ public:
     Node *node = new Node();
     node->key = key;
     node->value = value;
-    root = InsertTreap(root, node);
+    root = Insert(root, node);
   }
 
   /**
@@ -83,15 +83,15 @@ public:
       {
         if (parent == NULL)
         {
-          root = DeleteTreap(node);
+          root = Delete(node);
         }
         else if (parent->left == node)
         {
-          parent->left = DeleteTreap(node);
+          parent->left = Delete(node);
         }
         else
         {
-          parent->right = DeleteTreap(node);
+          parent->right = Delete(node);
         }
         return;
       }
@@ -239,7 +239,7 @@ private:
   /**
    * Inserts a new node into the tree, preserving balance
    */
-  Node *InsertTreap(Node *node, Node *what)
+  Node *Insert(Node *node, Node *what)
   {
     if (node == NULL)
     {
@@ -249,13 +249,13 @@ private:
 
     if (what->key < node->key)
     {
-      node->left = InsertTreap(node->left, what);
+      node->left = Insert(node->left, what);
       return Balance(node);
     }
 
     if (what->key > node->key)
     {
-      node->right = InsertTreap(node->right, what);
+      node->right = Insert(node->right, what);
       return Balance(node);
     }
 
@@ -266,7 +266,7 @@ private:
   /**
    * Removes a node from the treap, preserving balance
    */
-  Node *DeleteTreap(Node *node)
+  Node *Delete(Node *node)
   {
     if (!node->left && !node->right)
     {
@@ -278,14 +278,14 @@ private:
     if (!node->right || (node->left && node->left->weight < node->right->weight))
     {
       node = RotateRight(node);
-      node->right = DeleteTreap(node->right);
+      node->right = Delete(node->right);
       return node;
     }
 
     if (!node->left || (node->right && node->right->weight <= node->left->weight))
     {
       node = RotateLeft(node);
-      node->left = DeleteTreap(node->left);
+      node->left = Delete(node->left);
       return node;
     }
 

@@ -33,7 +33,7 @@ public:
     Node *node = new Node();
     node->key = key;
     node->value = value;
-    root = InsertAVL(root, node);
+    root = Insert(root, node);
   }
 
   /**
@@ -66,7 +66,7 @@ public:
    */
   void Delete(const Key& key)
   {
-    root = DeleteAVL(root, key);
+    root = Delete(root, key);
   }
 
   /**
@@ -285,7 +285,7 @@ private:
   /**
    * Inserts a node & restores balance
    */
-  Node *InsertAVL(Node *node, Node *what)
+  Node *Insert(Node *node, Node *what)
   {
     if (node == NULL)
     {
@@ -295,13 +295,13 @@ private:
 
     if (what->key < node->key)
     {
-      node->left = InsertAVL(node->left, what);
+      node->left = Insert(node->left, what);
       return Balance(node);
     }
 
     if (what->key > node->key)
     {
-      node->right = InsertAVL(node->right, what);
+      node->right = Insert(node->right, what);
       return Balance(node);
     }
 
@@ -312,7 +312,7 @@ private:
   /**
    * Removes a node from the tree & restores balance
    */
-  Node *DeleteAVL(Node *node, const Key& key)
+  Node *Delete(Node *node, const Key& key)
   {
     if (!node)
     {
@@ -321,13 +321,13 @@ private:
 
     if (key < node->key)
     {
-      node->left = DeleteAVL(node->left, key);
+      node->left = Delete(node->left, key);
       return Balance(node);
     }
 
     if (key > node->key)
     {
-      node->right = DeleteAVL(node->right, key);
+      node->right = Delete(node->right, key);
       return Balance(node);
     }
 

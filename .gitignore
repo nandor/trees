@@ -20,6 +20,8 @@
 *.out
 *.app
 
+# CTags
+tags
+
 # Sublime
 *sublime*
-

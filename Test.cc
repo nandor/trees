@@ -13,7 +13,7 @@
 #include "AVLTree.h"
 using namespace std;
 
-template <class T>
+template <class T, int N = 20>
 class TreeTest
 {
 public:
@@ -24,60 +24,51 @@ public:
 
   void Run()
   {
-    TestInsert();
-    TestInsertDuplicate();
     TestInsertDelete();
+    TestInsertDuplicate();
   }
 
 private:
 
-  void TestInsert()
+  void TestInsertDelete()
   {
-    for (int i = 0; i < 1000; ++i)
+    for (int i = 0; i < N; ++i)
     {
       tree->Insert(i, i);
     }
 
-    assert(tree->GetSize() == 1000);
-    for  (int i = 0; i < 1000; ++i)
+    assert(tree->GetSize() == N);
+    for  (int i = 0; i < N; ++i)
     {
       assert(tree->Find(i) == i);
     }
-  }
 
-  void TestInsertDuplicate()
-  {
-    for (int i = 0; i < 1000; ++i)
-    {
-      tree->Insert(i, i);
-    }
-
-    assert(tree->GetSize() == 1000);
-    for (int i = 0; i < 500; ++i)
-    {
-      tree->Insert(i, 500 - i);
-    }
-
-    assert(tree->GetSize() == 1000);
-    for  (int i = 0; i < 1000; ++i)
-    {
-      assert(tree->Find(i) == (i >= 500 ? i : (500 - i)));
-    }
-  }
-
-  void TestInsertDelete()
-  {
-    for (int i = 0; i < 1000; ++i)
-    {
-      tree->Insert(i, i);
-    }
-
-    for (int i = 0; i < 1000; ++i)
+    for (int i = 0; i < N; ++i)
     {
       tree->Delete(i);
     }
 
     assert(tree->GetSize() == 0);
+  }
+
+  void TestInsertDuplicate()
+  {
+    for (int i = 0; i < N; ++i)
+    {
+      tree->Insert(i, i);
+    }
+
+    assert(tree->GetSize() == N);
+    for (int i = 0; i < N / 2; ++i)
+    {
+      tree->Insert(i, N / 2 - i);
+    }
+
+    assert(tree->GetSize() == N);
+    for  (int i = 0; i < N; ++i)
+    {
+      assert(tree->Find(i) == ((i >= (N / 2)) ? i : (N / 2 - i)));
+    }
   }
 
   std::auto_ptr<Tree<int, int>> tree;
@@ -88,6 +79,6 @@ int main()
   (TreeTest<Treap<int, int>>()).Run();
   (TreeTest<AVLTree<int, int>>()).Run();
   (TreeTest<RBTree<int, int>>()).Run();
-  (TreeTest<BTree<int, int, 10>>()).Run();
+  (TreeTest<BTree<int, int, 2>>()).Run();
   return 0;
 }
